@@ -4,12 +4,30 @@
         <div class="row mb-5">
           <div class="col-md-9 order-1">
             <div class="row align">
+              <div class="title-section mb-5">
+                  <h2 class="text-uppercase">Products</h2>
+              </div>
               <div class="col-md-12 mb-5">
                 <div class="float-md-left">
-                  <h2 class="text-black h5">Shop All</h2>
+                    <!-- <div class="search-wrap">
+                      <div class="container">
+                        <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                        <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+                        <form action="#" method="post">
+                          <input type="text" class="form-control" name="search" onkeyup="this.form.submit()" value="" placeholder="Search keyword and hit enter...">
+                        </form>
+                      </div>
+                    </div> -->
                 </div>
                 <div class="d-flex">
                   <div class="dropdown mr-1 ml-md-auto btn-group">
+                    <!-- <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a> -->
+                    <form action="">
+                      <?php
+                        $search = $_GET["search"] ?? "";
+                      ?>
+                      <input type="text" class="form-control" name="search" onblur="this.form.submit()" value="<?php if($search){echo $_GET['search'];}?>" placeholder="Search Products">
+                    </form>
                     <button type="button" class="btn btn-white btn-sm dropdown-toggle px-4" id="dropdownMenuReference"
                       data-toggle="dropdown">Reference</button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
@@ -26,13 +44,18 @@
           //____ category fileter ______
           $categoryId = isset($_GET['id']) ? $categoryId = $_GET['id']:0;
 
-          $query = "SELECT * from Product";;
+          $query = "SELECT * from Product";
           // Add condition for category filtering
           if ($categoryId != 0) {
             $query .= " WHERE catId = $categoryId";
           }
 
-          // //____ sorting fileter ______
+          if(isset($_GET["search"])){
+            $search = isset($_GET['search']) ? $_GET['search'] : '';
+            $query = "SELECT * FROM Product p WHERE p.Name  LIKE '%".$search."%'";
+          }
+
+          // //____ sorting filter ______
           $sorting = isset($_GET['filter']) ? $_GET['filter'] : 0;
           // if ($sorting == 0) {
           //   $query .= " ORDER BY Name ASC"; // Sort A to Z
@@ -40,17 +63,19 @@
           //   $query .= " ORDER BY Name DESC"; // Sort Z to A
           // }
           
+
+          // //____ Price sorting filter ______
           // Add price range filtering condition
-          $minPrice = $_GET['minPrice'] ?? null; // Retrieve the minimum price from the URL parameters
-          $maxPrice = $_GET['maxPrice'] ?? null; // Retrieve the maximum price from the URL parameters
+          // $minPrice = $_GET['minPrice'] ?? null; 
+          // $maxPrice = $_GET['maxPrice'] ?? null; 
 
-          if ($minPrice !== null && $maxPrice !== null) {
-            $minPrice = (float)$minPrice; // Convert to float
-            $maxPrice = (float)$maxPrice; // Convert to float
+          // if ($minPrice !== null && $maxPrice !== null) {
+          //   $minPrice = (float)$minPrice; // Convert to float
+          //   $maxPrice = (float)$maxPrice; // Convert to float
 
-            // Add the price range condition to the query
-            $query .= " AND Price >= $minPrice AND Price <= $maxPrice";
-          }
+          //   // Add the price range condition to the query
+          //   $query .= " AND Price >= $minPrice AND Price <= $maxPrice";
+          // }
 
 
 
@@ -76,18 +101,32 @@
             foreach ($products as $row) {
               ?>
                 <div class="col-lg-6 col-md-6 item-entry mb-4">
-                  <a href="#" class="product-item md-height bg-gray d-block">
+                  <a href="productdetail.php?pId=<?php echo $row["pId"] ?>" class="product-item md-height bg-gray d-block">
                     <img src="<?php echo $row["imgUrl"]!="" ? "Photos/Products/$row[imgUrl]":"img/No_Image.jpg"?>"  alt="Image" class="img-fluid">
                   </a>
                   <h2 class="item-title"><a href="#"><?PHP echo $row["Name"] ?></a></h2>
-                  <strong class="item-price"><del>RS : <?PHP echo $row["Price"] ?></del> RS : <?PHP echo $row["Price"]-100 ?></strong>
-                  <div class="star-rating">
-                    <span class="icon-star2 text-warning"></span>
-                    <span class="icon-star2 text-warning"></span>
-                    <span class="icon-star2 text-warning"></span>
-                    <span class="icon-star2 text-warning"></span>
-                    <span class="icon-star2 text-warning"></span>
+                  <div class="container">
+                      <div class="row d-flex justify-content-between">
+                        <div class="col-9">
+                          <strong class="item-price"><del>RS : <?PHP echo $row["Price"] ?></del> RS : <?PHP echo $row["Price"]-100 ?></strong>
+                          <div class="star-rating">
+                            <span class="icon-star2 text-warning"></span>
+                            <span class="icon-star2 text-warning"></span>
+                            <span class="icon-star2 text-warning"></span>
+                            <span class="icon-star2 text-warning"></span>
+                            <span class="icon-star2 text-warning"></span>
+                          </div>
+                        </div>
+                        <div class="col-2 mr-4">
+                            <div class="row">
+                              <a href="cartAdd.php?id=<?php echo $row["pId"] ?>" class="btn-sm btn-primary">Add to Cart</a>
+                            </div>
+                        </div>
+                      </div>
                   </div>
+                  
+                  
+                  
                 </div>
 
               <?php
@@ -210,4 +249,26 @@
       </div>
     </div>
     
-<?php include "hfooter.php";?>    
+<?php
+if(isset($_SESSION["cAdd"])){
+  echo "
+        <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 1000
+          })
+          
+          Toast.fire({
+            icon: 'success',
+            title: 'Added To Car'
+          })
+        </script>
+        ";
+        unset($_SESSION['cAdd']);
+}
+
+include "hfooter.php";
+
+?> 

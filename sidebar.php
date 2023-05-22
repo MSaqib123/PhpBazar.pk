@@ -1,7 +1,7 @@
 <?php 
     include "config.php";
     session_start();
-    // //___ if no  Login have _______
+    //___ if no  Login have _______
     // if(!isset($_SESSION['email'])){
     //         header("location: index.php");
     // }
@@ -9,7 +9,7 @@
     // if(isset($_SESSION['email'])){
     //     if($_SESSION['role'] == 1){
             
-    //     }
+    //     }    
     //     if($_SESSION['role'] == 0){
     //         header("location: index.php");
     //     }
@@ -102,7 +102,7 @@
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse3"
                         aria-expanded="true" aria-controls="collapse3">
-                        <i class="fas fa-fw fa-cog"></i>
+                        <i class="fas fa-fw fa-box"></i>
                         <span>Products</span>
                     </a>
 
@@ -110,6 +110,22 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <a class="collapse-item" href="Product.php">List Products</a>
                             <a class="collapse-item" href="ProductAddUpdate.php">Create Product</a>
+                        </div>
+                    </div>
+                </li>
+
+                
+                <!-- Product -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse4"
+                        aria-expanded="true" aria-controls="collapse4">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>Users</span>
+                    </a>
+
+                    <div id="collapse4" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" href="users.php">List Users</a>
                         </div>
                     </div>
                 </li>

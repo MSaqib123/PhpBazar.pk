@@ -94,7 +94,7 @@
                   
                 ?>
                 <div class="col-lg-4 col-md-6 item-entry mb-4">
-                    <a href="#" class="product-item md-height bg-gray d-block">
+                    <a href="productdetail.php?pId=<?php echo $row["pId"] ?>" class="product-item md-height bg-gray d-block">
                       <img src="<?php echo $row["imgUrl"]!="" ? "Photos/Products/$row[imgUrl]":"img/No_Image.jpg"?>" alt="Image" class="img-fluid">
                     </a>
                     <h2 class="item-title"><a href="#"><?PHP echo $row["Name"] ?></a></h2>

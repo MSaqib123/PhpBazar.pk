@@ -106,7 +106,8 @@
           })
         </script>
         ";
-        session_destroy();
+        // session_destroy();
+        unset($_SESSION["Create"]);
     }
     if(isset($_SESSION["Update"])){
         echo "
@@ -129,7 +130,7 @@
           })
         </script>
         ";
-        session_destroy();
+        unset($_SESSION["Update"]);
     }
     if(isset($_SESSION["Delete"])){
         echo "
@@ -141,7 +142,7 @@
                 )
         </script>
         ";
-        session_destroy();
+        unset($_SESSION["Update"]);
     }
 ?>
 <?php include "footer.php";?>

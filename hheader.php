@@ -18,19 +18,24 @@
   <link rel="stylesheet" href="front/css/aos.css">
   <link rel="stylesheet" href="front/css/style.css">
   <script nonce="33500a31-01e6-4820-b5ce-7272b1b347b9">(function (w, d) { !function (dk, dl, dm, dn) { dk[dm] = dk[dm] || {}; dk[dm].executed = []; dk.zaraz = { deferred: [], listeners: [] }; dk.zaraz.q = []; dk.zaraz._f = function (dp) { return function () { var dq = Array.prototype.slice.call(arguments); dk.zaraz.q.push({ m: dp, a: dq }) } }; for (const dr of ["track", "set", "debug"]) dk.zaraz[dr] = dk.zaraz._f(dr); dk.zaraz.init = () => { var ds = dl.getElementsByTagName(dn)[0], dt = dl.createElement(dn), du = dl.getElementsByTagName("title")[0]; du && (dk[dm].t = dl.getElementsByTagName("title")[0].text); dk[dm].x = Math.random(); dk[dm].w = dk.screen.width; dk[dm].h = dk.screen.height; dk[dm].j = dk.innerHeight; dk[dm].e = dk.innerWidth; dk[dm].l = dk.location.href; dk[dm].r = dl.referrer; dk[dm].k = dk.screen.colorDepth; dk[dm].n = dl.characterSet; dk[dm].o = (new Date).getTimezoneOffset(); if (dk.dataLayer) for (const dy of Object.entries(Object.entries(dataLayer).reduce(((dz, dA) => ({ ...dz[1], ...dA[1] }))))) zaraz.set(dy[0], dy[1], { scope: "page" }); dk[dm].q = []; for (; dk.zaraz.q.length;) { const dB = dk.zaraz.q.shift(); dk[dm].q.push(dB) } dt.defer = !0; for (const dC of [localStorage, sessionStorage]) Object.keys(dC || {}).filter((dE => dE.startsWith("_zaraz_"))).forEach((dD => { try { dk[dm]["z_" + dD.slice(7)] = JSON.parse(dC.getItem(dD)) } catch { dk[dm]["z_" + dD.slice(7)] = dC.getItem(dD) } })); dt.referrerPolicy = "origin"; dt.src = "../../cdn-cgi/zaraz/sd0d9.js?z=" + btoa(encodeURIComponent(JSON.stringify(dk[dm]))); ds.parentNode.insertBefore(dt, ds) };["complete", "interactive"].includes(dl.readyState) ? zaraz.init() : dk.addEventListener("DOMContentLoaded", zaraz.init) }(w, d, "zarazData", "script"); })(window, document);</script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="sweetalert2.all.min.js"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
 </head>
 
 <body>
   <div class="site-wrap">
     <div class="site-navbar bg-white py-2">
-      <div class="search-wrap">
+      <!-- <div class="search-wrap">
         <div class="container">
           <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
           <form action="#" method="post">
             <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
           </form>
         </div>
-      </div>
+      </div> -->
       <div class="container">
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
@@ -58,19 +63,24 @@
                   </ul> -->
                 </li>
                 <li><a href="shop.php">Shop</a></li>
-                <li><a href="#">Catalogue</a></li>
-                <li><a href="#">New Arrivals</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.php">Contact</a></li>
               </ul>
             </nav>
           </div>
           <div class="icons">
-            
-            <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
             <a href="#" class="icons-btn d-inline-block"><span class="icon-heart-o"></span></a>
             <a href="cart.php" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
-              <span class="number">2</span>
+              <?php
+                $totalCarts = 0;
+                if(isset($_SESSION["cart"])){
+                  $cart = $_SESSION["cart"];
+                  foreach ($cart as $keys => $value) {
+                    $totalCarts += $value["quantity"];
+                  } 
+                }
+              ?>
+              <span class="number"><?php echo $totalCarts;?></span>
             </a>
 
             <?php
@@ -82,9 +92,12 @@
                     $name <img src='Photos/User/$_SESSION[image]' style='width:25px;height:25px' class='d-inline-block rounded-circle'/>  
                   </span>
                   <ul class='dropdown-menu dropdown-menu-dark' aria-labelledby='dropdownMenuButton2'>
-                    <li><a class='dropdown-item active' href='#'>Action</a></li>
-                    <li><a class='dropdown-item' href='#'>Another action</a></li>
-                    <li><a class='dropdown-item' href='#'>Something else here</a></li>
+                    <li><a class='dropdown-item' href='#'>Profile</a></li>";
+                    if($_SESSION['role'] == 1){
+                      echo "<li><a class='dropdown-item' href='dashboard.php'>Dashboard</a></li>";
+                    }
+
+                echo "
                     <li><hr class='dropdown-divider'></li>
                     <li><a href='logOut.php' class='dropdown-item' style='margin-left:10px'><span>LogOut</span></a> </li>
                   </ul>
@@ -99,7 +112,6 @@
                 ";
               }
             ?>
-
 
             <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
                 class="icon-menu"></span></a>
