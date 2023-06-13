@@ -10,7 +10,16 @@
             </div>
           </div>
           <div class="col-md-6 order-1 align-self-end">
-            <img src="front/images/model_5.png" alt="Image" class="img-fluid">
+            <?php
+                $query = "SELECT VALUE AS imgURL FROM tblconfig WHERE STATUS = 1";
+                $result = mysqli_query($con, $query);
+
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $imgURL = $row['imgURL'];
+                    echo '<img src="Photos/Splash/' . $imgURL . '" alt="Image" class="img-fluid">';
+                }
+            ?>
+            <!-- <img src="front/images/model_5.png" alt="Image" class="img-fluid"> -->
           </div>
         </div>
       </div>

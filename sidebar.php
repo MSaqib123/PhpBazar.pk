@@ -152,8 +152,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="Color.php">Colors</a>
+                        <a class="collapse-item" href="splash.php">Splash</a>
                     </div>
                 </div>
+                
             </li>
 
 
